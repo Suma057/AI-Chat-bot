@@ -1,7 +1,8 @@
-from gpt4all import GPT4All
+from transformers import pipeline
 
-gpt_model = GPT4All("gpt4all-lora-quantized")
+# Use a Hugging Face model like "distilbert-base-uncased"
+chat_model = pipeline('text-generation', model="gpt2")
 
 def generate_answer(query, document_text):
     prompt = f"Based on the document: {document_text}, answer the following query: {query}"
-    return gpt_model.generate(prompt)
+    return chat_model(prompt, max_length=200)[0]['generated_text']
