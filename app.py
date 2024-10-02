@@ -3,9 +3,9 @@ from chatbot import generate_answer
 import streamlit_authenticator as stauth
 
 # Create credentials
-names = ["User1"]
-usernames = ["user1"]
-passwords = ["password"]
+names = ["User1","User2","User3"]
+usernames = ["user1","user2","user3"]
+passwords = ["password1","password2","password3"]
 
 hashed_passwords = stauth.Hasher(passwords).generate()
 
