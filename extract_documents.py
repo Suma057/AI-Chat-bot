@@ -1,7 +1,6 @@
 import os
 from PyPDF2 import PdfReader
 from docx import Document
-import pandas as pd
 
 def extract_text_from_pdf(file_path):
     reader = PdfReader(file_path)
@@ -14,18 +13,22 @@ def extract_text_from_docx(file_path):
     doc = Document(file_path)
     return "\n".join([p.text for p in doc.paragraphs])
 
-def extract_text_from_excel(file_path):
-    df = pd.read_excel(file_path)
-    return df.to_string()
-
-def extract_all_files(directory):
-    text_data = []
-    for filename in os.listdir(directory):
-        file_path = os.path.join(directory, filename)
-        if filename.endswith(".pdf"):
-            text_data.append(extract_text_from_pdf(file_path))
-        elif filename.endswith(".docx"):
-            text_data.append(extract_text_from_docx(file_path))
-        elif filename.endswith(".xlsx"):
-            text_data.append(extract_text_from_excel(file_path))
-    return text_data
+def extract_text_from_files():
+    # Define paths to your documents here
+    documents = [
+        'data/Plagirism Form.pdf',
+        'data/PGPM 2024- Welcome Note - Nov 20, 2023.pdf',
+        'data/id card photo guidelines.docx',
+        'data/Day 1 guidelines.docx',
+        'data/SPJIMR CAMPUS-GUIDE MAP.pdf',
+        'data/Enclosure - 2 - Student Handbook 2024.pdf',
+        'data/program guidelines.pdf'
+    ]
+    
+    document_text = ""
+    for doc in documents:
+        if doc.endswith(".pdf"):
+            document_text += extract_text_from_pdf(doc) + "\n"
+        elif doc.endswith(".docx"):
+            document_text += extract_text_from_docx(doc) + "\n"
+    return document_text
