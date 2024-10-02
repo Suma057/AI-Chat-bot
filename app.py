@@ -1,41 +1,23 @@
 import streamlit as st
-from chatbot import generate_answer
-import streamlit_authenticator as stauth
+from extract_documents import extract_text_from_files
+from chatbot import chatbot_conversation
 
-# Create credentials
-names = ["User1","User2","User3"]
-usernames = ["user1","user2","user3"]
-passwords = ["password1","password2","password3"]
+# Page title
+st.title("Academic AI Chatbot")
 
-hashed_passwords = stauth.Hasher(passwords).generate()
+# Extract the document text
+document_text = extract_text_from_files()
 
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "cookie_name", "signature_key", cookie_expiry_days=30)
+# Display success message after extracting document text
+st.success("Documents processed and loaded successfully!")
 
-name, authentication_status, username = authenticator.login("Login", "main")
+# Input: User's name
+user_name = st.text_input("Please enter your name:")
 
-if authentication_status:
-    st.success(f"Welcome {name}")
-    # Rest of the chatbot code here
-elif authentication_status == False:
-    st.error("Username/password is incorrect")
-elif authentication_status == None:
-    st.warning("Please enter your username and password")
+# Input: Query from the user
+query = st.text_input("Ask me anything about the documents:")
 
-st.title("AI Chatbot using GPT4All")
-
-# Sidebar for uploading documents
-uploaded_file = st.file_uploader("Upload a document", type=["pdf", "docx", "xlsx"])
-
-if uploaded_file is not None:
-    # Extract text from the uploaded document (You can use your extract_documents.py logic here)
-    # For simplicity, let's assume you have the document text
-    document_text = "This is some example document text."
-
-    st.write("Document uploaded successfully!")
-
-    # Query input
-    query = st.text_input("Ask me anything:")
-
-    if query:
-        answer = generate_answer(query, document_text)
-        st.write("Answer:", answer)
+# If a query is provided, generate a response
+if query and user_name:
+    response = chatbot_conversation(user_name, query, document_text)
+    st.write(response)
