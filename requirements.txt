@@ -3,3 +3,4 @@ gpt4all
 PyPDF2
 python-docx
 pandas
+transformers
