@@ -1,5 +1,25 @@
 import streamlit as st
 from chatbot import generate_answer
+import streamlit_authenticator as stauth
+
+# Create credentials
+names = ["User1"]
+usernames = ["user1"]
+passwords = ["password"]
+
+hashed_passwords = stauth.Hasher(passwords).generate()
+
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "cookie_name", "signature_key", cookie_expiry_days=30)
+
+name, authentication_status, username = authenticator.login("Login", "main")
+
+if authentication_status:
+    st.success(f"Welcome {name}")
+    # Rest of the chatbot code here
+elif authentication_status == False:
+    st.error("Username/password is incorrect")
+elif authentication_status == None:
+    st.warning("Please enter your username and password")
 
 st.title("AI Chatbot using GPT4All")
 
