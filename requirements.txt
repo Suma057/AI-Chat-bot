@@ -1,1 +1,10 @@
-streamlit>=1.26.0
+flask
+flask-login
+flask-bcrypt
+gpt4all
+sentence-transformers
+faiss-cpu
+PyPDF2
+python-docx
+pandas
+
